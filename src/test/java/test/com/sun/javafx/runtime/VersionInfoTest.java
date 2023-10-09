@@ -108,6 +108,7 @@ public class VersionInfoTest {
 
     @Before
     public void setup() throws IOException {
+        VersionInfo.setupSystemProperties();
         try (var stream = getClass().getResourceAsStream(PROPERTIES_FILE)) {
             properties.load(stream);
         }
@@ -204,5 +205,19 @@ public class VersionInfoTest {
         String runtimeVersionLive = VersionInfo.getRuntimeVersion();
         String runtimeVersionFile = properties.getProperty(RUNTIME_VERSION_KEY);
         assertEquals(runtimeVersionLive, runtimeVersionFile);
+    }
+
+    @Test
+    public void testVersionSystem() {
+        String versionLive = VersionInfo.getVersion();
+        String versionSystem = System.getProperty(VERSION_KEY);
+        assertEquals(versionLive, versionSystem);
+    }
+
+    @Test
+    public void testRuntimeVersionSystem() {
+        String runtimeVersionLive = VersionInfo.getRuntimeVersion();
+        String runtimeVersionSystem = System.getProperty(RUNTIME_VERSION_KEY);
+        assertEquals(runtimeVersionLive, runtimeVersionSystem);
     }
 }
